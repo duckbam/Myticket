@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.myticket.dao.IBoardViewDAO">
+
+	<select id="movieProc" resultType="com.project.myticket.dto.ItemDTO">
+		SELECT * FROM myticket_movie
+	</select>
+	
+	<select id="movieSearchProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_movie WHERE sGenre=#{sGenre}
+	</select>
+	
+	<select id="theaterProc" resultType="com.project.myticket.dto.ItemDTO">
+		SELECT * FROM myticket_theater
+	</select>
+	
+	<select id="theaterSearchProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_theater WHERE sGenre=#{sGenre}
+	</select>
+	
+	<select id="concertProc" resultType="com.project.myticket.dto.ItemDTO">
+		SELECT * FROM myticket_concert
+	</select>
+	
+	<select id="concertSearchProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_concert WHERE sGenre=#{sGenre}
+	</select>
+	
+	<select id="sportsProc" resultType="com.project.myticket.dto.ItemDTO">
+		SELECT * FROM myticket_sports
+	</select>
+	
+	<select id="sportsSearchProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_sports WHERE sGenre=#{sGenre}
+	</select>
+	
+	<select id="leisureProc" resultType="com.project.myticket.dto.ItemDTO">
+		SELECT * FROM myticket_leisure
+	</select>
+	
+	<select id="leisureSearchProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_leisure WHERE sGenre=#{sGenre}
+	</select>
+	
+	<select id="viewMovieProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_movie WHERE saleCode=#{saleCode}
+	</select>
+	
+	<select id="viewConcertProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_concert WHERE saleCode=#{saleCode}
+	</select>
+	
+	<select id="viewLeisureProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_leisure WHERE saleCode=#{saleCode}
+	</select>
+	
+	<select id="viewSportsProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_sports WHERE saleCode=#{saleCode}
+	</select>
+	
+	<select id="viewTheaterProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_theater WHERE saleCode=#{saleCode}
+	</select>
+	
+	<select id="bookListProc" resultType="com.project.myticket.dto.BookDTO" parameterType="String">
+		SELECT * FROM myticket_book WHERE id=#{id}
+	</select>
+	
+	<select id="bookViewProc" resultType="com.project.myticket.dto.BookDTO" parameterType="String">
+		SELECT * FROM myticket_book WHERE bNum=#{bNum}
+	</select>
+
+	<select id="bookCancelProc" resultType="com.project.myticket.dto.BookDTO" parameterType="String">
+		SELECT * FROM myticket_book WHERE bNum=#{bNum}
+	</select>
+	
+	<select id="searchTitleTProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_theater WHERE name LIKE '%'||#{name}||'%'
+	</select>
+	
+	<select id="searchSellTProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_theater WHERE id LIKE '%'||#{id}||'%'
+	</select>
+	
+	<select id="searchTitleSProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_sports WHERE name LIKE '%'||#{name}||'%'
+	</select>
+	
+	<select id="searchSellSProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_sports WHERE id LIKE '%'||#{id}||'%'
+	</select>
+	
+	<select id="searchTitleLProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_leisure WHERE name LIKE '%'||#{name}||'%'
+	</select>
+	
+	<select id="searchSellLProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_leisure WHERE id LIKE '%'||#{id}||'%'
+	</select>
+	
+	<select id="searchTitleCProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_concert WHERE name LIKE '%'||#{name}||'%'
+	</select>
+	
+	<select id="searchSellCProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_concert WHERE id LIKE '%'||#{id}||'%'
+	</select>
+	
+	<select id="searchTitleMProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_movie WHERE name LIKE '%'||#{name}||'%'
+	</select>
+	
+	<select id="searchSellMProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="String">
+		SELECT * FROM myticket_movie WHERE id LIKE '%'||#{id}||'%'
+	</select>
+	
+	<select id="searchTitleBProc" resultType="com.project.myticket.dto.BookDTO" parameterType="String">
+		SELECT * FROM myticket_book WHERE bName LIKE '%'||#{bName}||'%'
+	</select>
+
+	<select id="searchSellNumBProc" resultType="com.project.myticket.dto.BookDTO" parameterType="String">
+		SELECT * FROM myticket_book WHERE bNum LIKE '%'||#{bNum}||'%'
+	</select>
+	
+	<select id="searchSellStateBProc" resultType="com.project.myticket.dto.BookDTO" parameterType="String">
+		SELECT * FROM myticket_book WHERE bState LIKE '%'||#{bState}||'%'
+	</select>
+</mapper>

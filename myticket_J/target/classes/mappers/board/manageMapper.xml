@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.myticket.dao.IManageDAO">
+
+<select id="manageProc" parameterType="com.project.myticket.dto.SearchDTO" resultType="com.project.myticket.dto.ItemDTO">
+		SELECT * FROM ${table}
+		<where>
+			<if test='sGenre.equals("00") == false'>
+			AND sGenre=#{sGenre}
+			</if>
+			<if test='loginType.equals("admin") == false'>
+			AND id=#{id}
+			</if>
+		</where>
+		ORDER BY regDate
+	</select>
+	
+	<select id="manageProcSearch" parameterType="com.project.myticket.dto.SearchDTO" resultType="com.project.myticket.dto.ItemDTO">
+		SELECT * FROM ${table} 
+		<where>
+			<if test='sGenre.equals("00") == false'>
+			AND sGenre=#{sGenre}
+			</if>
+			<if test='id.equals("admin") == false'>
+			AND id=#{id}
+			</if>
+			AND ${find} like '%'||#{data}||'%'
+		</where>
+		ORDER BY regDate 
+	</select>
+	
+	<select id="SeqNextVal" resultType="int">
+	    SELECT myticket_seq.NEXTVAL FROM DUAL
+	</select>
+	
+ 	<insert id="insertMovie" parameterType="com.project.myticket.dto.ItemDTO">
+		INSERT INTO myticket_movie VALUES(#{saleCode}, #{sGenre}, #{name}, #{id}, #{img}, #{place}, #{zipcode}, #{addr1}, #{addr2}, #{startDate}, #{endDate}, #{age}, #{content}, #{price}, #{seat}, #{regDate})
+	</insert>
+	
+	<insert id="insertTheater" parameterType="com.project.myticket.dto.ItemDTO">
+		INSERT INTO myticket_theater VALUES(#{saleCode}, #{sGenre}, #{name}, #{id}, #{img}, #{place}, #{zipcode}, #{addr1}, #{addr2}, #{startDate}, #{endDate}, #{age}, #{content}, #{price}, #{seat}, #{regDate})
+	</insert>
+	
+	<insert id="insertConcert" parameterType="com.project.myticket.dto.ItemDTO">
+		INSERT INTO myticket_concert VALUES(#{saleCode}, #{sGenre}, #{name}, #{id}, #{img}, #{place}, #{zipcode}, #{addr1}, #{addr2}, #{startDate}, #{endDate}, #{age}, #{content}, #{price}, #{seat}, #{regDate})
+	</insert>
+	
+	<insert id="insertSports" parameterType="com.project.myticket.dto.ItemDTO">
+		INSERT INTO myticket_sports VALUES(#{saleCode}, #{sGenre}, #{name}, #{id}, #{img}, #{place}, #{zipcode}, #{addr1}, #{addr2}, #{startDate}, #{endDate}, #{age}, #{content}, #{price}, #{seat}, #{regDate})
+	</insert>
+	
+	<insert id="insertLeisure" parameterType="com.project.myticket.dto.ItemDTO">
+		INSERT INTO myticket_leisure VALUES(#{saleCode}, #{sGenre}, #{name}, #{id}, #{img}, #{place}, #{zipcode}, #{addr1}, #{addr2}, #{startDate}, #{endDate}, #{age}, #{content}, #{price}, #{seat}, #{regDate})
+	</insert>
+
+	 
+	<select id="viewProc" resultType="com.project.myticket.dto.ItemDTO" parameterType="map">
+		SELECT * FROM ${table} WHERE saleCode =#{saleCode }
+	</select>
+	
+	<select id="delProc" parameterType="map">
+		DELETE FROM ${table} WHERE saleCode =#{saleCode }	
+	</select>	
+	
+	<select id="modifyMovie" parameterType="com.project.myticket.dto.ItemDTO">
+		UPDATE myticket_movie set name=#{name}, place=#{place}, zipcode=#{zipcode}, addr1=#{addr1}, addr2=#{addr2}, 
+		startDate=#{startDate}, endDate=#{endDate}, age=#{age}, content=#{content} , img=#{img} WHERE saleCode =#{saleCode }		
+	</select>	
+	
+	<select id="modifyTheater" parameterType="com.project.myticket.dto.ItemDTO">
+		UPDATE myticket_theater set name=#{name}, place=#{place}, zipcode=#{zipcode}, addr1=#{addr1}, addr2=#{addr2}, 
+		startDate=#{startDate}, endDate=#{endDate}, age=#{age}, content=#{content} , img=#{img} WHERE saleCode =#{saleCode }			
+	</select>	
+	
+	<select id="modifyConcert" parameterType="com.project.myticket.dto.ItemDTO">
+		UPDATE myticket_concert set name=#{name}, place=#{place}, zipcode=#{zipcode}, addr1=#{addr1}, addr2=#{addr2}, 
+		startDate=#{startDate}, endDate=#{endDate}, age=#{age}, content=#{content} , img=#{img} WHERE saleCode =#{saleCode }			
+	</select>	
+	
+	<select id="modifySports" parameterType="com.project.myticket.dto.ItemDTO">
+		UPDATE myticket_sports set name=#{name}, place=#{place}, zipcode=#{zipcode}, addr1=#{addr1}, addr2=#{addr2}, 
+		startDate=#{startDate}, endDate=#{endDate}, age=#{age}, content=#{content} , img=#{img} WHERE saleCode =#{saleCode }		
+	</select>	
+	
+	<select id="modifyLeisure" parameterType="com.project.myticket.dto.ItemDTO">
+		UPDATE myticket_leisure set name=#{name}, place=#{place}, zipcode=#{zipcode}, addr1=#{addr1}, addr2=#{addr2}, 
+		startDate=#{startDate}, endDate=#{endDate}, age=#{age}, content=#{content} , img=#{img} WHERE saleCode =#{saleCode }		
+	</select>
+	
+	<select id="readSaleCode" parameterType="com.project.myticket.dto.SearchDTO" resultType="String">
+		SELECT saleCode FROM ${table} WHERE id=#{id}
+	</select>	
+	
+	<select id="readBooking" parameterType="String" resultType="com.project.myticket.dto.BookDTO">
+		SELECT * FROM myticket_book WHERE saleCode=#{saleCode}  ORDER BY bToday  
+	</select>	
+	
+	<select id="readBookingSearch" parameterType="Map" resultType="com.project.myticket.dto.BookDTO">
+		SELECT * FROM myticket_book WHERE saleCode=#{saleCode} AND ${find} like '%'||#{data}||'%' ORDER BY bToday  
+	</select>		
+
+</mapper>

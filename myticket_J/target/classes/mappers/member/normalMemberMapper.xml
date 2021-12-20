@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.myticket.dao.IMemberDAO">
+
+ 	<insert id="normalRegisterProc"
+		parameterType="com.project.myticket.dto.NormalMemberDTO">
+		INSERT INTO myticket_user VALUES(#{id}, #{pw}, #{name}, #{phone}, #{email}, #{birth}, #{gender})
+	</insert>
+	
+	<select id="isNormalExistId" resultType="int" parameterType="String">
+		SELECT count(*) FROM myticket_user WHERE id=#{id}
+	</select>
+	
+	<select id="normalLoginProc" resultType="com.project.myticket.dto.NormalMemberDTO" parameterType="String">
+		SELECT * FROM myticket_user WHERE id=#{id}
+	</select>
+	
+	<select id="normalList" resultType="com.project.myticket.dto.NormalMemberDTO">
+    	SELECT * FROM myticket_user
+    </select>
+    
+    <update id="normalModifyProc"
+		parameterType="com.project.myticket.dto.NormalMemberDTO">
+		UPDATE myticket_user set pw=#{pw}, name=#{name}, phone=#{phone}, email=#{email}, birth=#{birth}, gender=#{gender} WHERE id=#{id}
+	</update>
+    
+   	<delete id="normalDeleteProc" parameterType="String">
+		DELETE FROM myticket_user WHERE id=#{id}
+	</delete>
+    
+</mapper>

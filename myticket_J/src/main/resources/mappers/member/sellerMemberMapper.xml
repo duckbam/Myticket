@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.myticket.dao.IMemberDAO">
+
+ 	<insert id="sellerRegisterProc"
+		parameterType="com.project.myticket.dto.SellerMemberDTO">
+		INSERT INTO myticket_seller VALUES(#{id}, #{pw}, #{phone}, #{email}, #{company}, #{tin}, #{zipcode}, #{addr1},
+		#{addr2})
+	</insert>
+	
+	<select id="isSellerExistId" resultType="int" parameterType="String">
+		SELECT count(*) FROM myticket_seller WHERE id=#{id}
+	</select>
+	
+	<select id="sellerLoginProc" resultType="com.project.myticket.dto.SellerMemberDTO" parameterType="String">
+		SELECT * FROM myticket_seller WHERE id=#{id}
+	</select>
+	
+	<select id="sellerList" resultType="com.project.myticket.dto.SellerMemberDTO">
+    	SELECT * FROM myticket_seller
+    </select>
+    
+     <update id="sellerModifyProc"
+		parameterType="com.project.myticket.dto.SellerMemberDTO">
+		UPDATE myticket_seller set pw=#{pw}, phone=#{phone}, email=#{email}, company=#{company}, tin=#{tin}, zipcode=#{zipcode}, addr1=#{addr1}, addr2=#{addr2} WHERE id=#{id}
+	</update>
+    
+   	<delete id="sellerDeleteProc" parameterType="String">
+		DELETE FROM myticket_seller WHERE id=#{id}
+	</delete>
+    
+</mapper>

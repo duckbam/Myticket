@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.myticket.dao.ICenterDAO">
+	<insert id="writeProc" parameterType="com.project.myticket.dto.CenterDTO">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT nvl(max(no), 0)+1 FROM myticket_QA
+		</selectKey>
+		INSERT INTO myticket_QA VALUES(#{no}, #{category}, #{saleCode}, #{title}, #{id}, #{content}, #{writeDate}, #{answer}, #{no}, #{groupOrd})
+	</insert>
+	
+	<insert id="reWriteProc" parameterType="com.project.myticket.dto.CenterDTO">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">
+			SELECT nvl(max(no), 0)+1 FROM myticket_QA
+		</selectKey>
+		INSERT INTO myticket_QA VALUES(#{no}, #{category}, #{saleCode}, #{title}, #{id}, #{content}, #{writeDate}, #{answer}, #{originNo}, #{groupOrd})
+	</insert>
+	
+	<select id="centerProc" parameterType="com.project.myticket.dto.SearchDTO" resultType="com.project.myticket.dto.CenterDTO">
+		SELECT * FROM myticket_QA 
+		<where>
+			<if test='category != "My"'>
+		 		AND category = #{category} 
+			</if>
+			<if test='category == "My"'>
+				AND id = #{id} 
+			</if>
+		</where>
+		ORDER BY originNo DESC, groupOrd ASC
+	</select>
+	
+	<select id="centerProcSearch" parameterType="com.project.myticket.dto.SearchDTO" resultType="com.project.myticket.dto.CenterDTO">
+		SELECT * FROM myticket_QA  
+		<where>
+			<if test='category != "My"'>
+				AND category = #{category} 
+			</if>
+			<if test='category == "My"'>
+				AND id = #{id} 
+			</if>
+			AND ${find} like '%'||#{data}||'%'
+		</where>
+		ORDER BY originNo DESC, groupOrd ASC 
+	</select>
+	
+	<select id="centerProcSaleCode" parameterType="com.project.myticket.dto.SearchDTO" resultType="com.project.myticket.dto.CenterDTO">
+		SELECT * FROM myticket_QA
+		<where>
+			saleCode=#{saleCode}
+			<if test='answer == "n"'>
+				AND answer = #{answer} 
+			</if>
+		</where>
+		ORDER BY originNo DESC, groupOrd ASC 
+	</select>
+	
+	<select id="viewProc" resultType="com.project.myticket.dto.CenterDTO" parameterType="int">
+		SELECT * FROM myticket_QA  WHERE no=#{no}
+	</select>
+	
+	<select id="delProc" parameterType="int">
+		DELETE FROM myticket_QA  WHERE no=#{no}	
+	</select>	
+	
+	<select id="modifyProc" parameterType="com.project.myticket.dto.CenterDTO">
+		UPDATE myticket_QA  set saleCode = #{saleCode}, title = #{title}, content = #{content}  WHERE no=#{no}		
+	</select>	
+	
+	<select id="upReply" parameterType="int">
+		UPDATE myticket_QA  set answer = 'y' WHERE no=#{no}		
+	</select>
+	
+	<select id="delReply" parameterType="int">
+		UPDATE myticket_QA  set answer = 'n' WHERE no=#{no}		
+	</select>
+	
+	<select id="readSaleCode" parameterType="map" resultType="com.project.myticket.dto.ItemDTO">
+		SELECT saleCode, name FROM ${table}
+		<where>
+			<if test="id != null">
+			 AND id=#{id}																																										
+			</if>
+		</where>
+	</select>	
+	
+	<select id="readSellerId" parameterType="map" resultType="String">
+		SELECT id FROM ${table} WHERE saleCode=#{saleCode}
+	</select>	
+	
+	<select id="readSaleName" parameterType="map" resultType="String">
+		SELECT name FROM ${table} WHERE saleCode=#{saleCode}
+	</select>
+	
+	<select id="readReply" parameterType="map" resultType="com.project.myticket.dto.CenterDTO">
+		SELECT * FROM myticket_QA WHERE originNo=#{originNo} and groupOrd=#{groupOrd}
+	</select>
+		
+</mapper>

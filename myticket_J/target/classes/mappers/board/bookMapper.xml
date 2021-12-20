@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.myticket.dao.IBookDAO">
+
+	<insert id="bookInsertProc" parameterType="com.project.myticket.dto.BookDTO">
+		INSERT INTO myticket_book VALUES(#{bNum}, #{bName}, #{bTicket}, #{bCancel}, #{bState}, #{id}, #{saleCode}, #{bToday}, #{bWatch})
+	</insert>
+	
+	<update id="bookUpdateProc" parameterType="com.project.myticket.dto.BookDTO">
+		UPDATE myticket_book SET bState=#{bState} WHERE bNum=#{bNum}
+	</update>
+	
+	<update id="MSeatUpdate" parameterType="com.project.myticket.dto.ItemDTO">
+		UPDATE myticket_movie SET seat=#{seat} WHERE saleCode=#{saleCode}
+	</update>
+	
+	<update id="TSeatUpdate" parameterType="com.project.myticket.dto.ItemDTO">
+		UPDATE myticket_theater SET seat=#{seat} WHERE saleCode=#{saleCode}
+	</update>
+	
+	<update id="CSeatUpdate" parameterType="com.project.myticket.dto.ItemDTO">
+		UPDATE myticket_concert SET seat=#{seat} WHERE saleCode=#{saleCode}
+	</update>
+	
+	<update id="SSeatUpdate" parameterType="com.project.myticket.dto.ItemDTO">
+		UPDATE myticket_sports SET seat=#{seat} WHERE saleCode=#{saleCode}
+	</update>
+	
+	<update id="LSeatUpdate" parameterType="com.project.myticket.dto.ItemDTO">
+		UPDATE myticket_leisure SET seat=#{seat} WHERE saleCode=#{saleCode}
+	</update>
+</mapper>
