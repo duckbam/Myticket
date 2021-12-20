@@ -1,0 +1,97 @@
+ ==== DB 생성 ====
+ 
+1) 일반 사용자
+ CREATE TABLE myticket_user(
+ id varchar2(40),          //id : 최대 길이 40자
+ pw varchar2(160),       //암호화 암호 : 최소 길이 160
+ name varchar2(10),     //이름 최대 10자
+ phone varchar2(15),    //폰 번호 : 숫자만  01000000000 11자,(국제 번호 넣을경우 대비 추가 +082 4자리)
+ email varchar2(320),    //이메일 : 규격 id 64자 + 도메인 255 + @ 
+ birth varchar2(20),      //생년월일 : 1999-01-01 10자
+ gender varchar2(1),    //성별 - 남성 : m 여성 : w
+ primary key(id)
+);
+
+2) 판매자 
+ CREATE TABLE myticket_seller(
+ id varchar2(40),          //id  : 최대 길이 40자
+ pw varchar2(160),       //암호화 암호 : 최소 길이 160
+ phone varchar2(15),    //대표 번호:  숫자만  052-0000-0000 11자,(국제 번호 넣을경우 대비 추가 +082 4자리)
+ email varchar2(320),    //이메일 : 규격 id 64자 + 도메인 255 + @ 
+ company varchar2(100) //회사명 : 최대 길이 63자	
+ tin varchar2(10),         //국내 사업자 번호 : 10자(tax identification number 약자)
+ zipcode varchar2(5),     //우편번호
+ addr1   varchar2(100),    //도로명 주소 : 현재 한글 최대 길이 34byte
+ addr2   varchar2(100),    //상세주소
+ primary key(id, tin)     //한 기업의 하나의 id 등록
+);
+
+3) 예약  
+ CREATE TABLE myticket_book(
+ bNum varchar2(10),          //예약 번호 : 랜덤 함수 10자
+ bName varchar2(100),       //상품명 : 최대 50자
+ bTicket varchar2(10),         // 예약 매수
+ bCancel varchar2(20),       // 취소 가능날짜
+ bState varchar2(1),           //예약 상태 - 예약 : b 취소 : c 
+ id varchar2(40),   	           //예약한 id
+ saleCode varchar2(20),       //상품 코드  
+ bToday varchar2(20),         //예약한 날짜
+ bWatch varchar2(20),        // 관람일
+ primary key(bNum)
+ );
+
+4) 판매 상품
+ //CREATE TABLE myticket_merchandise
+ CREATE TABLE myticket_movie, myticket_theater, myticket_concert, myticket_sports, myticket_leisure(
+ saleCode varchar2(20),      //카테고리 코드 영화 : M  
+		                        연극 : T 
+                                                 콘서트 : C 
+                                                 스포츠 : S
+			            레저 :  L
+		          서브 장르는 각 순서별 01~xx까지 
+		카테고리 코드+서브 장르 코드 + 년 4자리+ 월 2자리 + sequence 4자리 =13자리
+		           ex) 영화/액션 => M/01/2021/11/0001
+			   영화/애니메이션 =>M070002
+			   뒤의 네자리는 전체상품 수
+			   (카테고리 장르 구분 없이 전체 상품 등록순으로)
+ 			   select count(*) from 테이블명으로 현재 갯수 + 1
+ sGenre varchar2(2),        //서브 장르 상품 코드와 같이 01~xx까지
+ name varchar2(100),       //상품명
+ id   varchar2(40),          //판매자
+ img varchar2(100),	       //타이틀 이미지명 UUID 36자를 제외한 최대 64자
+ place varchar2(50),       //장소명
+ zipcode varchar2(5),     //우편번호
+ addr1   varchar2(100),    //도로명 주소 : 현재 한글 최대 길이 34byte
+ addr2   varchar2(100),    //상세주소
+ startDate varchar2(20),  //시작날짜
+ endDate varchar2(20),  //종료날짜
+ age number,              //나이제한
+ content	varchar2(1000), //정보
+ price number,	      //가격
+ seat number,	      //잔여 좌석
+ regDate varchar2(20)     //등록 날짜
+ primary key(saleCode)
+);
+
+5) Q&A
+ CREATE TABLE myticket_QA(
+  no number,                  //게시글 번호 
+  category varchar2(10),     //카테고리 movie, theater, concert, sports, leisure
+  saleCode varchar2(20),     //상품코드 '선택하지 않음' 추가 UTF-8의 경우 문자 하나가  3byte
+                                    //6 * 3 + 1 = 19
+		          //ASCII 2Byte 
+  title varchar2(100),         //제목
+  id varchar2(40),             //작성자
+  content  varchar2(1000),  //작성 내용
+  writedate varchar2(20),   //작성 날짜
+  answer varchar2(1),        //답변 여부 y : 답변 있음 n : 답변 없음
+  originNo number,          //문의글 번호(원글 번호)
+  groupOrd number,        //문의글을 포함한 글 순서
+  constraint pk_no primary key(no),
+  constraint fk_originNo foreign key(originNo) references myticket_QA(no) on delete cascade
+);
+
+6)상품 시컨스
+CREATE SEQUENCE myticket_seq INCREMENT BY 1 START WITH 1 MAXVALUE 9999 CYCLE;
+ //1부터 ~ 9999까지  1씩 증가 9999 이후 1로 초기화
+ 
